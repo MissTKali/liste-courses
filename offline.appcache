@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# version 1
+# version 3 - 15 septembre 2026
 
 CACHE:
 ./
@@ -7,6 +7,7 @@ index.html
 style.css
 app.js
 manifest.json
+icons/icon-512.png
 
 NETWORK:
 *
