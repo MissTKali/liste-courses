@@ -12,6 +12,8 @@
   var newTrip = document.getElementById("newTrip");
   var deleteChecked = document.getElementById("deleteChecked");
   var statusEl = document.getElementById("status");
+  var optionsButton = document.getElementById("optionsButton");
+  var optionsPanel = document.getElementById("optionsPanel");
 
   function load() {
     var saved;
@@ -137,6 +139,14 @@
     render();
     newName.focus();
     return false;
+  };
+
+  optionsButton.onclick = function () {
+    if (optionsPanel.className.indexOf("open") !== -1) {
+      optionsPanel.className = "actions options-panel";
+    } else {
+      optionsPanel.className = "actions options-panel open";
+    }
   };
 
   newTrip.onclick = function () {

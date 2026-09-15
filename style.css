@@ -194,6 +194,35 @@ button {
   color: #fff;
 }
 
+/* =========================================================
+   Options protégées
+   ========================================================= */
+.options-zone {
+  margin-top: 14px;
+  text-align: right;
+}
+
+.options-button {
+  min-height: 42px;
+  padding: 7px 13px;
+  background: #eee;
+  color: #555;
+  font-size: 15px;
+  font-weight: normal;
+}
+
+.options-panel {
+  display: none;
+  margin-top: 10px;
+}
+
+.options-panel.open {
+  display: block;
+}
+/* =========================================================
+   FIN
+   ========================================================= */
+
 @media (max-width: 380px) {
   html, body { font-size: 16px; }
   h1 { font-size: 24px; }
@@ -203,3 +232,4 @@ button {
   .price { width: 68px; font-size: 16px; }
   .item-delete { width: 42px; }
 }
+
