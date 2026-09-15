@@ -1,4 +1,4 @@
-var CACHE_NAME = "liste-courses-v1";
+var CACHE_NAME = "liste-courses-v1-1";
 var FILES = [
   "./",
   "./index.html",
