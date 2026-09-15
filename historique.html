@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="fr" manifest="offline.appcache">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#322650">
+  <title>Historique des prix</title>
+  <link rel="icon" type="image/png" href="icons/icon-512.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <header class="app-header history-header">
+      <a class="back-button" href="index.html" aria-label="Retour">‹</a>
+      <div class="header-title">
+        <h1>Historique des prix</h1>
+        <p class="status">Courses enregistrées sur ce téléphone</p>
+      </div>
+      <div class="header-spacer" aria-hidden="true"></div>
+    </header>
+
+    <main>
+      <div id="historyEmpty" class="empty">Aucune course enregistrée pour l'instant.</div>
+
+      <section id="priceSection" class="history-section">
+        <label for="productSelect">Produit à suivre</label>
+        <select id="productSelect" class="product-select"></select>
+        <div id="chart" class="chart-box"></div>
+        <div id="priceDetails" class="price-details"></div>
+      </section>
+
+      <section id="tripsSection" class="history-section">
+        <h2>Courses enregistrées</h2>
+        <div id="trips"></div>
+      </section>
+    </main>
+  </div>
+  <script src="historique.js"></script>
+</body>
+</html>

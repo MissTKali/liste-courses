@@ -1,235 +1,145 @@
 * { box-sizing: border-box; }
-
-html, body {
-  margin: 0;
-  padding: 0;
-  background: #f3f1f6;
-  color: #222;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 18px;
-}
-
+html, body { margin: 0; padding: 0; background: #f3f1f6; color: #222; font-family: Arial, Helvetica, sans-serif; font-size: 18px; }
 body { min-height: 100vh; }
-
-.app {
-  width: 100%;
-  max-width: 620px;
-  margin: 0 auto;
-  background: #fff;
-  min-height: 100vh;
-}
-
-header {
-  background: #322650;
-  color: #fff;
-  padding: 18px 14px 14px;
-  text-align: center;
-}
-
-h1 {
-  margin: 0;
-  font-size: 27px;
-}
-
-.status {
-  margin: 7px 0 0;
-  font-size: 13px;
-  opacity: .9;
-}
-
+.app { width: 100%; max-width: 620px; margin: 0 auto; background: #fff; min-height: 100vh; }
+.app-header { position: relative; background: #451033; color: #fff; padding: 12px 10px; display: flex; align-items: center; }
+.header-title { flex: 1; min-width: 0; text-align: center; }
+.header-spacer, .menu-button, .back-button { width: 48px; flex: 0 0 48px; }
+h1 { margin: 0; font-size: 27px; }
+.status { margin: 5px 0 0; font-size: 13px; opacity: .9; }
+.menu-button { min-height: 44px; padding: 0; border: 0; border-radius: 6px; background: transparent; color: #fff; font-size: 31px; font-weight: normal; line-height: 1; }
+.back-button { color: #fff; text-decoration: none; font-size: 44px; line-height: 44px; text-align: center; }
 main { padding: 14px; }
-
-label {
-  display: block;
-  font-weight: bold;
-  margin-bottom: 7px;
-}
-
-.add-row {
-  display: table;
-  width: 100%;
-}
-
-.add-row input,
-.add-row button {
-  display: table-cell;
-  vertical-align: middle;
-}
-
-.add-row input {
-  width: 68%;
-  height: 48px;
-  border: 2px solid #aaa;
-  border-radius: 6px 0 0 6px;
-  padding: 8px 10px;
-  font-size: 18px;
-}
-
-button {
-  min-height: 48px;
-  border: 0;
-  border-radius: 6px;
-  padding: 8px 13px;
-  font-size: 17px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.primary {
-  width: 32%;
-  background: #322650;
-  color: #fff;
-  border-radius: 0 6px 6px 0;
-}
-
-.list {
-  list-style: none;
-  padding: 0;
-  margin: 18px 0;
-  border-top: 1px solid #ddd;
-}
-
-.item {
-  display: table;
-  width: 100%;
-  padding: 10px 0;
-  border-bottom: 1px solid #ddd;
-}
-
-.item-check,
-.item-name,
-.item-price,
-.item-delete {
-  display: table-cell;
-  vertical-align: middle;
-}
-
-.item-check { width: 44px; }
-
-.item-check input {
-  width: 27px;
-  height: 27px;
-}
-
-.item-name {
-  padding: 0 8px 0 2px;
-  font-size: 19px;
-  word-break: break-word;
-}
-
-.item.checked .item-name {
-  text-decoration: line-through;
-  color: #777;
-}
-
-.item-price { width: 100px; }
-
-.price {
-  width: 78px;
-  height: 42px;
-  padding: 5px;
-  text-align: right;
-  border: 1px solid #aaa;
-  border-radius: 5px;
-  font-size: 17px;
-}
-
-.euro { margin-left: 2px; }
-
-.item-delete {
-  width: 48px;
-  text-align: right;
-}
-
-.delete-one {
-  min-width: 42px;
-  min-height: 42px;
-  padding: 4px;
-  background: #eee;
-  color: #8a1f1f;
-  font-size: 23px;
-}
-
-.empty {
-  margin: 22px 0;
-  padding: 18px 10px;
-  text-align: center;
-  color: #666;
-  background: #f6f6f6;
-  border-radius: 6px;
-}
-
-.total-box {
-  display: table;
-  width: 100%;
-  margin-top: 16px;
-  padding: 15px 12px;
-  background: #eeeaf4;
-  border: 2px solid #322650;
-  border-radius: 7px;
-  font-size: 23px;
-}
-
-.total-box span,
-.total-box strong {
-  display: table-cell;
-}
-
+label { display: block; font-weight: bold; margin-bottom: 7px; }
+.add-row { display: table; width: 100%; }
+.add-row input, .add-row button { display: table-cell; vertical-align: middle; }
+.add-row input { width: 68%; height: 48px; border: 2px solid #aaa; border-radius: 6px 0 0 6px; padding: 8px 10px; font-size: 18px; }
+button, .button-link { min-height: 48px; border: 0; border-radius: 6px; padding: 8px 13px; font-size: 17px; font-weight: bold; cursor: pointer; }
+.primary { width: 32%; background: #451033; color: #fff; border-radius: 0 6px 6px 0; }
+.column-help { display: none; justify-content: flex-end; gap: 24px; margin: 15px 45px -12px 0; color: #777; font-size: 12px; }
+.list { list-style: none; padding: 0; margin: 18px 0; border-top: 1px solid #ddd; }
+.item { display: flex; align-items: center; width: 100%; padding: 8px 0; border-bottom: 1px solid #ddd; min-width: 0; }
+.move-controls { width: 30px; flex: 0 0 30px; text-align: center; }
+.move-controls button { display: block; width: 28px; min-height: 25px; padding: 0; margin: 0; background: transparent; color: #777; font-size: 13px; border-radius: 2px; }
+.move-controls button:disabled { opacity: .2; }
+.item-check { width: 38px; flex: 0 0 38px; }
+.item-check input { width: 25px; height: 25px; accent-color: #6E4857; }
+.item-name { flex: 1 1 auto; min-width: 62px; padding: 0 5px 0 0; font-size: 18px; word-break: break-word; }
+.item.checked .item-name { text-decoration: line-through; color: #777; }
+.item-quantity { width: 82px; flex: 0 0 82px; display: flex; align-items: center; }
+.quantity { width: 48px; height: 40px; padding: 4px; text-align: right; border: 1px solid #aaa; border-radius: 5px 0 0 5px; font-size: 16px; }
+.unit { width: 34px; height: 40px; padding: 1px; border: 1px solid #aaa; border-left: 0; border-radius: 0 5px 5px 0; background: #fff; font-size: 14px; }
+.item-price { width: 103px; flex: 0 0 103px; display: flex; align-items: center; }
+.price { width: 64px; height: 40px; padding: 4px; text-align: right; border: 1px solid #aaa; border-radius: 5px; font-size: 16px; }
+.price-unit { width: 38px; margin-left: 3px; font-size: 13px; white-space: nowrap; }
+.item-delete { width: 42px; flex: 0 0 42px; text-align: right; }
+.delete-one { min-width: 38px; min-height: 40px; padding: 2px; background: #eee; color: #8a1f1f; font-size: 22px; }
+.empty { margin: 22px 0; padding: 18px 10px; text-align: center; color: #666; background: #f6f6f6; border-radius: 6px; }
+.total-box { display: table; width: 100%; margin-top: 16px; padding: 15px 12px; background: #f3eaf0; border: 2px solid #451033; border-radius: 7px; font-size: 23px; }
+.total-box span, .total-box strong { display: table-cell; }
 .total-box strong { text-align: right; }
+.options-panel { display: none; position: absolute; top: 68px; right: 14px; z-index: 1000; width: 280px; max-width: calc(100% - 28px); padding: 10px; background: white; border: 1px solid #ccc; border-radius: 6px; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18); }
+.options-panel.open { display: block; }
+.options-panel button, .options-panel .button-link { display: block; width: 100%; margin-bottom: 9px; text-align: center; text-decoration: none; }
+.secondary { background: #ddd; color: #222; }
+.strong-action { background: #451033; color: #fff; }
+.danger { background: #8a1f1f; color: #fff; }
+.file-input { display: none; }
+.file-label { line-height: 32px; }
+.history-section { margin-bottom: 24px; }
+.history-section h2 { margin: 8px 0 12px; font-size: 21px; }
+.product-select { width: 100%; min-height: 46px; padding: 7px; border: 1px solid #aaa; border-radius: 6px; background: #fff; font-size: 17px; }
+.chart-box { margin-top: 12px; padding: 8px 4px; border: 1px solid #ddd; border-radius: 6px; overflow: hidden; }
+.chart-box svg { display: block; width: 100%; height: auto; }
+.axis { stroke: #999; stroke-width: 1; }
+.chart-line { fill: none; stroke: #451033; stroke-width: 4; stroke-linejoin: round; stroke-linecap: round; }
+.chart-point { fill: #451033; }
+.chart-label, .chart-year { fill: #555; font-size: 12px; }
+.price-details { margin-top: 8px; }
+.price-details div { display: flex; justify-content: space-between; gap: 10px; padding: 7px 2px; border-bottom: 1px solid #eee; font-size: 15px; }
+.trip-card { margin-bottom: 12px; border: 1px solid #ddd; border-radius: 6px; overflow: hidden; }
+.trip-head { display: flex; justify-content: space-between; padding: 10px; background: #f3eaf0; }
+.trip-items { list-style: none; margin: 0; padding: 5px 10px; }
+.trip-items li { display: flex; justify-content: space-between; gap: 8px; padding: 6px 0; border-bottom: 1px solid #eee; font-size: 15px; }
+.trip-items li:last-child { border-bottom: 0; }
 
-.actions { margin-top: 14px; }
-
-.actions button {
-  width: 100%;
-  margin-bottom: 9px;
-}
-
-.secondary {
-  background: #ddd;
-  color: #222;
-}
-
-.danger {
-  background: #8a1f1f;
-  color: #fff;
-}
-
-/* =========================================================
-   Options protégées
-   ========================================================= */
-.options-zone {
-  margin-top: 14px;
-  text-align: right;
-}
-
-.options-button {
-  min-height: 42px;
-  padding: 7px 13px;
-  background: #eee;
-  color: #555;
-  font-size: 15px;
-  font-weight: normal;
-}
-
-.options-panel {
-  display: none;
-  margin-top: 10px;
-}
-
-.options-panel.open {
-  display: block;
-}
-/* =========================================================
-   FIN
-   ========================================================= */
-
-@media (max-width: 380px) {
+@media (max-width: 430px) {
   html, body { font-size: 16px; }
-  h1 { font-size: 24px; }
-  main { padding: 10px; }
-  .item-name { font-size: 17px; }
-  .item-price { width: 90px; }
-  .price { width: 68px; font-size: 16px; }
-  .item-delete { width: 42px; }
+  h1 { font-size: 22px; }
+  main { padding: 9px; }
+  .header-spacer, .menu-button, .back-button { width: 42px; flex-basis: 42px; }
+  .item { padding: 7px 0; }
+  .move-controls { width: 25px; flex-basis: 25px; }
+  .move-controls button { width: 24px; }
+  .item-check { width: 32px; flex-basis: 32px; }
+  .item-check input { width: 23px; height: 23px; }
+  .item-name { font-size: 16px; }
+  .item-quantity { width: 70px; flex-basis: 70px; }
+  .quantity { width: 40px; font-size: 15px; }
+  .unit { width: 30px; font-size: 13px; }
+  .item-price { width: 91px; flex-basis: 91px; }
+  .price { width: 57px; font-size: 15px; }
+  .price-unit { width: 31px; font-size: 11px; }
+  .item-delete { width: 37px; flex-basis: 37px; }
+  .delete-one { min-width: 34px; }
+  .column-help { display: none !important; }
 }
 
+@media (max-width: 350px) {
+  .move-controls { width: 22px; flex-basis: 22px; }
+  .move-controls button { width: 21px; font-size: 11px; }
+  .item-check { width: 29px; flex-basis: 29px; }
+  .item-name { font-size: 15px; }
+  .item-quantity { width: 64px; flex-basis: 64px; }
+  .quantity { width: 36px; }
+  .unit { width: 28px; }
+  .item-price { width: 84px; flex-basis: 84px; }
+  .price { width: 52px; }
+  .price-unit { width: 29px; font-size: 10px; }
+  .item-delete { width: 34px; flex-basis: 34px; }
+}
+
+/* =========================================================
+   V2 - Catalogue habituel + course en cours
+   ========================================================= */
+.app-header .header-title { order: 2; }
+.app-header .menu-button { order: 1; }
+.app-header .header-spacer { order: 3; }
+main h2 { margin: 4px 0 12px; font-size: 21px; color: #222; }
+.current-trip-section { padding-bottom: 18px; border-bottom: 2px solid #e5e1eb; }
+.catalog-section { padding-top: 18px; }
+.section-title-row { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+.trip-count { color: #666; font-size: 13px; white-space: nowrap; }
+.compact-empty { margin: 8px 0 12px; padding: 12px 8px; font-size: 15px; }
+.trip-list { margin-top: 8px; }
+.trip-total-box { margin-top: 10px; }
+.catalog-help { margin: 12px 0 6px; color: #777; font-size: 12px; text-align: center; }
+.course-select { width: 38px; flex: 0 0 38px; text-align: center; }
+.select-course { width: 34px; min-width: 34px; min-height: 40px; padding: 0; background: transparent; color: #451033; font-size: 28px; line-height: 1; }
+.catalog-item.selected { background: #f7f4fb; }
+.catalog-price-summary { width: 105px; flex: 0 0 105px; padding-right: 4px; text-align: right; font-size: 13px; line-height: 1.35; color: #666; }
+.catalog-price-summary strong { color: #222; font-weight: normal; }
+.trip-item .item-check { margin-left: 4px; }
+.trip-item .item-name { padding-left: 2px; }
+.options-panel { top: 68px; right: 14px; }
+
+@media (max-width: 430px) {
+  main h2 { font-size: 19px; }
+  .catalog-price-summary { width: 88px; flex-basis: 88px; font-size: 11px; }
+  .course-select { width: 32px; flex-basis: 32px; }
+  .select-course { width: 30px; min-width: 30px; font-size: 25px; }
+  .trip-item .item-check { width: 31px; flex-basis: 31px; }
+}
+
+@media (max-width: 350px) {
+  .catalog-price-summary { width: 76px; flex-basis: 76px; font-size: 10px; }
+  .course-select { width: 29px; flex-basis: 29px; }
+  .trip-item .item-quantity { width: 64px; flex-basis: 64px; }
+  .trip-item .item-price { width: 84px; flex-basis: 84px; }
+}
+
+/* V2 - interface épurée / aubergine Ubuntu */
+.status:empty { display: none; }
+.compact-empty:empty { display: none !important; }
+.course-select button { color: #451033; }
+.catalog-item.selected .select-course { color: #451033; }

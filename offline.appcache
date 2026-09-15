@@ -1,12 +1,15 @@
 CACHE MANIFEST
-# version 3 - 15 septembre 2026
+# version 6 - interface epuree aubergine
 
 CACHE:
 ./
 index.html
+historique.html
 style.css
 app.js
+historique.js
 manifest.json
+icons/icon-192.png
 icons/icon-512.png
 
 NETWORK:

@@ -1,37 +1,30 @@
-MA LISTE DE COURSES — V1
+MA LISTE DE COURSES — V2
 
-Contenu
--------
-index.html        écran de l'application
-style.css         présentation
-app.js            fonctionnement de la liste
-sw.js             fonctionnement hors connexion (navigateurs compatibles)
-offline.appcache  secours pour certains anciens navigateurs
-manifest.json     informations de l'application web
-vercel.json       réglages d'hébergement Vercel
+Fonctions principales
+---------------------
+- liste habituelle conservée localement
+- ajout/suppression et cases à cocher
+- réorganisation des lignes avec les flèches haut/bas
+- quantité en unités (u) ou en grammes (g)
+- si g : le prix saisi est le prix au kg et le total est calculé automatiquement
+- total du panier automatique
+- menu ☰ discret en haut à droite
+- Enregistrer cette course : crée uniquement une COPIE dans l'historique ; la liste habituelle n'est jamais modifiée
+- page Historique avec courses enregistrées et évolution annuelle moyenne du prix par produit
+- sauvegarde/restauration JSON de la liste + historique
+- fonctionnement hors connexion
+- aucune bibliothèque, API, police ou ressource JavaScript extérieure
 
-Fonctions
----------
-- ajouter un article
-- cocher/décocher un article
-- saisir son prix à la main
-- total automatique
-- supprimer un article
-- supprimer tous les articles cochés
-- "Nouvelle course" : conserve les articles mais les décoche et remet les prix à zéro
-- mémorisation locale sur le téléphone
-- aucun CDN, aucune bibliothèque, aucune API et aucune police externe
+Compatibilité V1
+----------------
+La clé de stockage de la liste reste maListeCourses_v1 : les articles existants sont donc conservés.
+Les anciens articles reçoivent automatiquement quantité = 1 et unité = u.
 
-IMPORTANT
----------
-La liste est enregistrée dans le stockage local du navigateur.
-Effacer les données du navigateur peut donc effacer la liste.
+Historique
+----------
+Une course enregistrée contient uniquement les articles cochés ayant un prix supérieur à zéro.
+L'enregistrement ne décoche rien, ne remet aucun prix à zéro et ne supprime aucun article.
 
-Pour le hors connexion, ouvrir l'application une première fois avec Internet.
-Le mécanisme moderne (Service Worker) est complété par un ancien mécanisme
-AppCache pour améliorer les chances de fonctionnement sur un vieux navigateur.
-
-Déploiement Vercel
-------------------
-Déposer tous les fichiers à la racine du projet, puis déployer le projet.
-Aucune compilation et aucune dépendance ne sont nécessaires.
+Déploiement
+-----------
+Déposer les fichiers à la racine du projet et pousser sur GitHub. Vercel redéploie automatiquement.

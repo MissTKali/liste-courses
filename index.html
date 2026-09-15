@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="theme-color" content="#322650">
+  <meta name="theme-color" content="#300A24">
   <title>Ma liste de courses</title>
   <link rel="manifest" href="manifest.json">
   <link rel="icon" type="image/png" href="icons/icon-512.png">
@@ -11,51 +11,52 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="app">
-    <header>
+<div class="app">
+  <header class="app-header">
+    <button type="button" id="optionsButton" class="menu-button" aria-label="Options" title="Options">☰</button>
+    <div class="header-title">
       <h1>Ma liste de courses</h1>
-      <p class="status" id="status">Liste enregistrée sur ce téléphone</p>
-    </header>
+      <p class="status" id="status"></p>
+    </div>
+    <div class="header-spacer" aria-hidden="true"></div>
 
-    <main>
+    <div id="optionsPanel" class="options-panel">
+      <button type="button" id="newTrip" class="strong-action">Nouvelle liste de courses</button>
+      <button type="button" id="saveTrip" class="secondary">Enregistrer cette course</button>
+      <a class="button-link secondary" href="historique.html">Historique des prix</a>
+      <button type="button" id="backupData" class="secondary">Sauvegarder mes données</button>
+      <label class="button-link secondary file-label" for="restoreFile">Restaurer une sauvegarde</label>
+      <input id="restoreFile" class="file-input" type="file" accept="application/json,.json">
+    </div>
+  </header>
+
+  <main>
+    <section id="currentTripSection" class="current-trip-section">
+      <div class="section-title-row">
+        <span id="tripCount" class="trip-count"></span>
+      </div>
+      <div id="tripEmpty" class="empty compact-empty"></div>
+      <ul id="tripList" class="list trip-list"></ul>
+      <section class="total-box trip-total-box">
+        <span>Total acheté</span>
+        <strong id="total">0,00 €</strong>
+      </section>
+    </section>
+
+    <section class="catalog-section">
+      <h2>Mes articles habituels</h2>
       <form id="addForm" class="add-form">
-        <label for="newName">Nouvel article</label>
         <div class="add-row">
-          <input id="newName" type="text" autocomplete="off" maxlength="60"
-                 placeholder="Ex. Café">
+          <input id="newName" type="text" autocomplete="off" maxlength="60" placeholder="Nouvel article">
           <button type="submit" class="primary">Ajouter</button>
         </div>
       </form>
 
-      <div id="emptyMessage" class="empty">
-        Votre liste est vide.<br>Ajoutez votre premier article ci-dessus.
-      </div>
-
-      <ul id="list" class="list"></ul>
-
-      <section class="total-box">
-        <span>Total</span>
-        <strong id="total">0,00 €</strong>
-      </section>
-
-      <div class="options-zone">
-        <button type="button" id="optionsButton" class="options-button">
-          ⋮ Options
-        </button>
-
-        <div id="optionsPanel" class="actions options-panel">
-          <button type="button" id="newTrip" class="secondary">
-            Nouvelle course
-          </button>
-
-          <button type="button" id="deleteChecked" class="danger">
-            Supprimer les cochés
-          </button>
-        </div>
-      </div>
-    </main>
-  </div>
-
-  <script src="app.js"></script>
+      <div id="emptyMessage" class="empty">Votre liste habituelle est vide.<br>Ajoutez votre premier article ci-dessus.</div>
+      <ul id="list" class="list catalog-list"></ul>
+    </section>
+  </main>
+</div>
+<script src="app.js"></script>
 </body>
 </html>
