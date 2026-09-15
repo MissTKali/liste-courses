@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="fr" manifest="offline.appcache">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#322650">
+  <title>Ma liste de courses</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <header>
+      <h1>Ma liste de courses</h1>
+      <p class="status" id="status">Liste enregistrée sur ce téléphone</p>
+    </header>
+
+    <main>
+      <form id="addForm" class="add-form">
+        <label for="newName">Nouvel article</label>
+        <div class="add-row">
+          <input id="newName" type="text" autocomplete="off" maxlength="60"
+                 placeholder="Ex. Café">
+          <button type="submit" class="primary">Ajouter</button>
+        </div>
+      </form>
+
+      <div id="emptyMessage" class="empty">
+        Votre liste est vide.<br>Ajoutez votre premier article ci-dessus.
+      </div>
+
+      <ul id="list" class="list"></ul>
+
+      <section class="total-box">
+        <span>Total</span>
+        <strong id="total">0,00 €</strong>
+      </section>
+
+      <div class="actions">
+        <button type="button" id="newTrip" class="secondary">Nouvelle course</button>
+        <button type="button" id="deleteChecked" class="danger">Supprimer les cochés</button>
+      </div>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

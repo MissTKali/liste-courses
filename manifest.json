@@ -1,0 +1,8 @@
+{
+  "name": "Ma liste de courses",
+  "short_name": "Courses",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#322650"
+}
