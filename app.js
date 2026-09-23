@@ -174,7 +174,7 @@
       priceValue = item.price ? String(item.price).replace(".", ",") : "";
       qtyValue = String(positiveNumber(item.quantity, 1)).replace(".", ",");
       html += '<li class="item catalog-item' + (isSelected ? ' selected' : '') + '" data-id="' + escapeHtml(item.id) + '">';
-      html += '<div class="move-controls"><button class="move-up" type="button" aria-label="Monter"' + (i === 0 ? ' disabled' : '') + '>▲</button><button class="move-down" type="button" aria-label="Descendre"' + (i === items.length - 1 ? ' disabled' : '') + '>▼</button></div>';
+      html += '<div class="drag-handle" draggable="true" title="Maintenir et glisser pour déplacer" aria-label="Déplacer">≡</div>';
       html += '<div class="course-select"><button class="select-course" type="button" aria-label="' + (isSelected ? 'Retirer de la course' : 'Ajouter à la course') + '">' + (isSelected ? '●' : '○') + '</button></div>';
       html += '<div class="item-name">' + escapeHtml(item.name) + '</div>';
       html += '<div class="catalog-price-summary">' + escapeHtml(qtyValue) + ' ' + escapeHtml(item.unit) + '<br><strong>' + (priceValue || '—') + (item.unit === 'g' ? ' €/kg' : ' €') + '</strong></div>';
@@ -207,14 +207,31 @@
 
   function bindCatalogRows() {
     var rows = listEl.getElementsByTagName("li"), i;
-    for (i = 0; i < rows.length; i++) { bindCatalogRow(rows[i], i); }
+    for (i = 0; i < rows.length; i++) { bindCatalogRow(rows[i]); }
   }
 
-  function bindCatalogRow(row, index) {
-    var item = items[index], toggle = row.getElementsByClassName("select-course")[0];
+  function moveItemById(dragId, targetId) {
+    var from = -1, to = -1, i, moved;
+    if (!dragId || !targetId || dragId === targetId) { return; }
+    for (i = 0; i < items.length; i++) {
+      if (items[i].id === dragId) { from = i; }
+      if (items[i].id === targetId) { to = i; }
+    }
+    if (from < 0 || to < 0) { return; }
+    moved = items.splice(from, 1)[0];
+    if (from < to) { to--; }
+    items.splice(to, 0, moved);
+    save();
+    render();
+  }
+
+  function bindCatalogRow(row) {
+    var id = row.getAttribute("data-id"), item = findItem(id);
+    var toggle = row.getElementsByClassName("select-course")[0];
     var del = row.getElementsByClassName("delete-one")[0];
-    var up = row.getElementsByClassName("move-up")[0];
-    var down = row.getElementsByClassName("move-down")[0];
+    var handle = row.getElementsByClassName("drag-handle")[0];
+    var touchStarted = false, lastTargetId = null;
+    if (!item) { return; }
 
     toggle.onclick = function () {
       var pos = trip.selected.indexOf(item.id);
@@ -222,14 +239,54 @@
       else { trip.selected.splice(pos, 1); delete trip.checked[item.id]; }
       save(); render();
     };
-    up.onclick = function () { var tmp; if (index <= 0) { return; } tmp = items[index - 1]; items[index - 1] = items[index]; items[index] = tmp; save(); render(); };
-    down.onclick = function () { var tmp; if (index >= items.length - 1) { return; } tmp = items[index + 1]; items[index + 1] = items[index]; items[index] = tmp; save(); render(); };
+
     del.onclick = function () {
       if (window.confirm('Supprimer définitivement "' + item.name + '" de Mes articles habituels ?')) {
-        var pos = trip.selected.indexOf(item.id);
+        var pos = trip.selected.indexOf(item.id), i;
         if (pos !== -1) { trip.selected.splice(pos, 1); delete trip.checked[item.id]; }
-        items.splice(index, 1); save(); render();
+        for (i = 0; i < items.length; i++) { if (items[i].id === item.id) { items.splice(i, 1); break; } }
+        save(); render();
       }
+    };
+
+    /* Souris / ordinateur */
+    handle.ondragstart = function (event) {
+      row.className += " dragging";
+      if (event.dataTransfer) { event.dataTransfer.setData("text/plain", item.id); event.dataTransfer.effectAllowed = "move"; }
+    };
+    handle.ondragend = function () { row.className = row.className.replace(/\s*dragging/g, ""); };
+    row.ondragover = function (event) { if (event.preventDefault) { event.preventDefault(); } return false; };
+    row.ondrop = function (event) {
+      var dragId;
+      if (event.preventDefault) { event.preventDefault(); }
+      dragId = event.dataTransfer ? event.dataTransfer.getData("text/plain") : "";
+      moveItemById(dragId, item.id);
+      return false;
+    };
+
+    /* Tactile ancien Android : on glisse par la poignée ≡. */
+    handle.ontouchstart = function () {
+      touchStarted = true; lastTargetId = item.id;
+      if (row.className.indexOf("dragging") === -1) { row.className += " dragging"; }
+    };
+    handle.ontouchmove = function (event) {
+      var touch, target, targetRow, targetId;
+      if (!touchStarted || !event.touches || !event.touches.length) { return; }
+      if (event.preventDefault) { event.preventDefault(); }
+      touch = event.touches[0];
+      target = document.elementFromPoint(touch.clientX, touch.clientY);
+      while (target && target !== listEl && !(target.className && (" " + target.className + " ").indexOf(" catalog-item ") !== -1)) { target = target.parentNode; }
+      targetRow = target && target !== listEl ? target : null;
+      targetId = targetRow ? targetRow.getAttribute("data-id") : null;
+      if (targetId && targetId !== lastTargetId && targetId !== item.id) {
+        lastTargetId = targetId;
+        moveItemById(item.id, targetId);
+        touchStarted = false;
+      }
+    };
+    handle.ontouchend = handle.ontouchcancel = function () {
+      touchStarted = false;
+      row.className = row.className.replace(/\s*dragging/g, "");
     };
   }
 

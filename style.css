@@ -19,9 +19,8 @@ button, .button-link { min-height: 48px; border: 0; border-radius: 6px; padding:
 .column-help { display: none; justify-content: flex-end; gap: 24px; margin: 15px 45px -12px 0; color: #777; font-size: 12px; }
 .list { list-style: none; padding: 0; margin: 18px 0; border-top: 1px solid #ddd; }
 .item { display: flex; align-items: center; width: 100%; padding: 8px 0; border-bottom: 1px solid #ddd; min-width: 0; }
-.move-controls { width: 30px; flex: 0 0 30px; text-align: center; }
-.move-controls button { display: block; width: 28px; min-height: 25px; padding: 0; margin: 0; background: transparent; color: #777; font-size: 13px; border-radius: 2px; }
-.move-controls button:disabled { opacity: .2; }
+.drag-handle { width: 30px; flex: 0 0 30px; min-height: 42px; display: flex; align-items: center; justify-content: center; color: #777; font-size: 25px; line-height: 1; cursor: move; -webkit-user-select: none; user-select: none; }
+.catalog-item.dragging { opacity: .55; background: #f3e9ef; }
 .item-check { width: 38px; flex: 0 0 38px; }
 .item-check input { width: 25px; height: 25px; accent-color: #6E4857; }
 .item-name { flex: 1 1 auto; min-width: 62px; padding: 0 5px 0 0; font-size: 18px; word-break: break-word; }
@@ -69,8 +68,7 @@ button, .button-link { min-height: 48px; border: 0; border-radius: 6px; padding:
   main { padding: 9px; }
   .header-spacer, .menu-button, .back-button { width: 42px; flex-basis: 42px; }
   .item { padding: 7px 0; }
-  .move-controls { width: 25px; flex-basis: 25px; }
-  .move-controls button { width: 24px; }
+  .drag-handle { width: 25px; flex-basis: 25px; font-size: 23px; }
   .item-check { width: 32px; flex-basis: 32px; }
   .item-check input { width: 23px; height: 23px; }
   .item-name { font-size: 16px; }
@@ -86,8 +84,7 @@ button, .button-link { min-height: 48px; border: 0; border-radius: 6px; padding:
 }
 
 @media (max-width: 350px) {
-  .move-controls { width: 22px; flex-basis: 22px; }
-  .move-controls button { width: 21px; font-size: 11px; }
+  .drag-handle { width: 22px; flex-basis: 22px; font-size: 21px; }
   .item-check { width: 29px; flex-basis: 29px; }
   .item-name { font-size: 15px; }
   .item-quantity { width: 64px; flex-basis: 64px; }
