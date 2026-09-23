@@ -140,3 +140,10 @@ main h2 { margin: 4px 0 12px; font-size: 21px; color: #222; }
 .compact-empty:empty { display: none !important; }
 .course-select button { color: #451033; }
 .catalog-item.selected .select-course { color: #451033; }
+
+/* Déplacement tactile du catalogue - compatible anciens Android */
+.drag-handle { -webkit-touch-callout: none; touch-action: none; }
+.drag-placeholder { min-height: 42px; border: 2px dashed #b8a7b0; background: #faf6f8; }
+.touch-drag-ghost { position: fixed; z-index: 5000; margin: 0; opacity: .92; background: #fff; border: 1px solid #cbbdc4; box-shadow: 0 5px 16px rgba(0,0,0,.22); pointer-events: none; }
+.touch-drag-ghost .delete-one, .touch-drag-ghost .select-course { pointer-events: none; }
+.catalog-reordering { -webkit-user-select: none; user-select: none; }
