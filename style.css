@@ -31,8 +31,6 @@ button, .button-link { min-height: 48px; border: 0; border-radius: 6px; padding:
 .item-price { width: 103px; flex: 0 0 103px; display: flex; align-items: center; }
 .price { width: 64px; height: 40px; padding: 4px; text-align: right; border: 1px solid #aaa; border-radius: 5px; font-size: 16px; }
 .price-unit { width: 38px; margin-left: 3px; font-size: 13px; white-space: nowrap; }
-.item-delete { width: 42px; flex: 0 0 42px; text-align: right; }
-.delete-one { min-width: 38px; min-height: 40px; padding: 2px; background: #eee; color: #8a1f1f; font-size: 22px; }
 .empty { margin: 22px 0; padding: 18px 10px; text-align: center; color: #666; background: #f6f6f6; border-radius: 6px; }
 .total-box { display: table; width: 100%; margin-top: 16px; padding: 15px 12px; background: #f3eaf0; border: 2px solid #451033; border-radius: 7px; font-size: 23px; }
 .total-box span, .total-box strong { display: table-cell; }
@@ -77,9 +75,7 @@ button, .button-link { min-height: 48px; border: 0; border-radius: 6px; padding:
   .unit { width: 30px; font-size: 13px; }
   .item-price { width: 91px; flex-basis: 91px; }
   .price { width: 57px; font-size: 15px; }
-  .price-unit { width: 31px; font-size: 11px; }
-  .item-delete { width: 37px; flex-basis: 37px; }
-  .delete-one { min-width: 34px; }
+  .price-unit { width: 31px; font-size: 11px; }  
   .column-help { display: none !important; }
 }
 
@@ -93,7 +89,6 @@ button, .button-link { min-height: 48px; border: 0; border-radius: 6px; padding:
   .item-price { width: 84px; flex-basis: 84px; }
   .price { width: 52px; }
   .price-unit { width: 29px; font-size: 10px; }
-  .item-delete { width: 34px; flex-basis: 34px; }
 }
 
 /* =========================================================
@@ -145,5 +140,57 @@ main h2 { margin: 4px 0 12px; font-size: 21px; color: #222; }
 .drag-handle { -webkit-touch-callout: none; touch-action: none; }
 .drag-placeholder { min-height: 42px; border: 2px dashed #b8a7b0; background: #faf6f8; }
 .touch-drag-ghost { position: fixed; z-index: 5000; margin: 0; opacity: .92; background: #fff; border: 1px solid #cbbdc4; box-shadow: 0 5px 16px rgba(0,0,0,.22); pointer-events: none; }
-.touch-drag-ghost .delete-one, .touch-drag-ghost .select-course { pointer-events: none; }
+.touch-drag-ghost .select-course { pointer-events: none; }
 .catalog-reordering { -webkit-user-select: none; user-select: none; }
+
+/* Menu d'action après appui long sur un article */
+
+.article-menu-overlay {
+  position: absolute;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  right: 0;
+  height: 100%;
+
+  display: block;
+  padding: 80px 20px 20px;
+
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.article-menu {
+  width: 100%;
+  max-width: 320px;
+  margin: 0 auto;
+  overflow: hidden;
+
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.30);
+}
+
+.article-menu-title {
+  padding: 16px;
+  font-weight: bold;
+  text-align: center;
+  color: #300A24;
+  border-bottom: 1px solid #ddd;
+}
+
+.article-menu button {
+  display: block;
+  width: 100%;
+
+  padding: 15px;
+  border: 0;
+  border-bottom: 1px solid #ddd;
+
+  background: white;
+  font-size: 16px;
+  text-align: left;
+}
+
+.article-menu button:last-child {
+  border-bottom: 0;
+}

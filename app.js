@@ -178,7 +178,6 @@
       html += '<div class="course-select"><button class="select-course" type="button" aria-label="' + (isSelected ? 'Retirer de la course' : 'Ajouter à la course') + '">' + (isSelected ? '●' : '○') + '</button></div>';
       html += '<div class="item-name">' + escapeHtml(item.name) + '</div>';
       html += '<div class="catalog-price-summary">' + escapeHtml(qtyValue) + ' ' + escapeHtml(item.unit) + '<br><strong>' + (priceValue || '—') + (item.unit === 'g' ? ' €/kg' : ' €') + '</strong></div>';
-      html += '<div class="item-delete"><button class="delete-one" type="button" title="Supprimer" aria-label="Supprimer">×</button></div>';
       html += '</li>';
     }
     listEl.innerHTML = html;
@@ -228,9 +227,10 @@
   function bindCatalogRow(row) {
     var id = row.getAttribute("data-id"), item = findItem(id);
     var toggle = row.getElementsByClassName("select-course")[0];
-    var del = row.getElementsByClassName("delete-one")[0];
     var handle = row.getElementsByClassName("drag-handle")[0];
+    var nameEl = row.getElementsByClassName("item-name")[0];
     var touchStarted = false, lastTargetId = null;
+    var longPressTimer = null, longPressTriggered = false;
     var autoScrollTimer = null, autoScrollDirection = 0;
     if (!item) { return; }
 
@@ -263,13 +263,130 @@
       save(); render();
     };
 
-    del.onclick = function () {
+    function deleteArticle() {
       if (window.confirm('Supprimer définitivement "' + item.name + '" de Mes articles habituels ?')) {
         var pos = trip.selected.indexOf(item.id), i;
-        if (pos !== -1) { trip.selected.splice(pos, 1); delete trip.checked[item.id]; }
-        for (i = 0; i < items.length; i++) { if (items[i].id === item.id) { items.splice(i, 1); break; } }
-        save(); render();
+
+        if (pos !== -1) {
+          trip.selected.splice(pos, 1);
+          delete trip.checked[item.id];
+        }
+
+        for (i = 0; i < items.length; i++) {
+          if (items[i].id === item.id) {
+            items.splice(i, 1);
+            break;
+          }
+        }
+
+        save();
+        render();
       }
+    }
+
+    function cancelLongPress() {
+      if (longPressTimer) {
+        window.clearTimeout(longPressTimer);
+        longPressTimer = null;
+      }
+    }
+
+    function openArticleMenu() {
+      var overlay, menu, title, modifyButton, deleteButton, cancelButton;
+
+      longPressTriggered = true;
+
+      overlay = document.createElement("div");
+      overlay.className = "article-menu-overlay";
+
+      overlay.style.top =
+        (window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0) + "px";
+
+      menu = document.createElement("div");
+      menu.className = "article-menu";
+
+      title = document.createElement("div");
+      title.className = "article-menu-title";
+      title.appendChild(document.createTextNode(item.name));
+
+      modifyButton = document.createElement("button");
+      modifyButton.type = "button";
+      modifyButton.appendChild(document.createTextNode("Modifier"));
+
+      deleteButton = document.createElement("button");
+      deleteButton.type = "button";
+      deleteButton.appendChild(document.createTextNode("Supprimer"));
+
+      cancelButton = document.createElement("button");
+      cancelButton.type = "button";
+      cancelButton.appendChild(document.createTextNode("Annuler"));
+
+      menu.appendChild(title);
+      menu.appendChild(modifyButton);
+      menu.appendChild(deleteButton);
+      menu.appendChild(cancelButton);
+
+      overlay.appendChild(menu);
+      document.body.appendChild(overlay);
+
+      function closeMenu() {
+        if (overlay && overlay.parentNode) {
+          overlay.parentNode.removeChild(overlay);
+        }
+      }
+
+      modifyButton.onclick = function () {
+        var newArticleName;
+
+        closeMenu();
+
+        newArticleName = window.prompt(
+          "Modifier l'article :",
+          item.name
+        );
+
+        if (newArticleName !== null) {
+          newArticleName = newArticleName.replace(/^\s+|\s+$/g, "");
+
+          if (newArticleName) {
+            item.name = newArticleName;
+            save();
+            render();
+          }
+        }
+      };
+
+      deleteButton.onclick = function () {
+        closeMenu();
+        deleteArticle();
+      };
+
+      cancelButton.onclick = function () {
+        closeMenu();
+      };
+
+      overlay.onclick = function (event) {
+        if (event.target === overlay) {
+          closeMenu();
+        }
+      };
+    }
+
+    nameEl.ontouchstart = function () {
+      longPressTriggered = false;
+      cancelLongPress();
+
+      longPressTimer = window.setTimeout(function () {
+        openArticleMenu();
+      }, 600);
+    };
+
+    nameEl.ontouchmove = function () {
+      cancelLongPress();
+    };
+
+    nameEl.ontouchend = nameEl.ontouchcancel = function () {
+      cancelLongPress();
     };
 
     /* Souris / ordinateur */
