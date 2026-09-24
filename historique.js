@@ -67,7 +67,10 @@
     for (i = history.length - 1; i >= 0; i--) {
       trip = history[i];
       html += '<article class="trip-card">';
-      html += '<div class="trip-head"><strong>' + escapeHtml(dateFr(trip.date)) + '</strong><strong>' + money(trip.total) + '</strong></div>';
+      html += '<button type="button" class="trip-head" aria-expanded="false">';
+      html += '<strong>' + escapeHtml(dateFr(trip.date)) + '</strong>';
+      html += '<span class="trip-head-right"><strong>' + money(trip.total) + '</strong><span class="trip-arrow">▼</span></span>';
+      html += '</button>';
       html += '<ul class="trip-items">';
       for (j = 0; j < trip.items.length; j++) {
         item = trip.items[j];
@@ -76,6 +79,27 @@
       html += '</ul></article>';
     }
     tripsEl.innerHTML = html;
+
+    var heads = tripsEl.getElementsByClassName("trip-head");
+
+    for (i = 0; i < heads.length; i++) {
+      heads[i].onclick = function () {
+        var items = this.nextSibling;
+        var arrow = this.getElementsByClassName("trip-arrow")[0];
+        var isOpen = this.getAttribute("aria-expanded") === "true";
+
+        if (isOpen) {
+          items.style.display = "none";
+          this.setAttribute("aria-expanded", "false");
+          arrow.innerHTML = "▼";
+        } else {
+          items.style.display = "block";
+          this.setAttribute("aria-expanded", "true");
+          arrow.innerHTML = "▲";
+        }
+      };
+    }
+    
   }
 
   function annualSeries(key) {

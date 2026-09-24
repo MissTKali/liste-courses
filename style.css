@@ -201,3 +201,37 @@ main h2 { margin: 4px 0 12px; font-size: 21px; color: #222; }
   top: 0;
   background: #fff;
 }
+
+/* Courses enregistrées repliables */
+.trip-card .trip-head {
+  width: 100%;
+  min-height: 48px;
+  padding: 10px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  border: 0;
+  border-radius: 0;
+  background: #f3eaf0;
+  color: #222;
+  text-align: left;
+  font-size: 16px;
+}
+
+.trip-head-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.trip-arrow {
+  width: 20px;
+  text-align: center;
+  color: #451033;
+}
+
+.trip-card .trip-items {
+  display: none;
+}
