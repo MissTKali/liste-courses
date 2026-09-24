@@ -144,7 +144,6 @@ main h2 { margin: 4px 0 12px; font-size: 21px; color: #222; }
 .catalog-reordering { -webkit-user-select: none; user-select: none; }
 
 /* Menu d'action après appui long sur un article */
-
 .article-menu-overlay {
   position: absolute;
   z-index: 9999;
@@ -193,4 +192,12 @@ main h2 { margin: 4px 0 12px; font-size: 21px; color: #222; }
 
 .article-menu button:last-child {
   border-bottom: 0;
+}
+
+/* Nouvel article : sticky compatible ancien Android */
+.add-form.is-sticky {
+  position: fixed;
+  z-index: 900;
+  top: 0;
+  background: #fff;
 }

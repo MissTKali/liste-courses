@@ -512,6 +512,78 @@
     };
   }
 
+  /* Sticky du formulaire "Nouvel article" - compatible ancien Android */
+  var addFormTop = 0;
+  var addFormPlaceholder = null;
+
+  function prepareAddFormSticky() {
+    var rect;
+
+    if (!addForm) {
+      return;
+    }
+
+    rect = addForm.getBoundingClientRect();
+    addFormTop = rect.top +
+      (window.pageYOffset ||
+       document.documentElement.scrollTop ||
+       document.body.scrollTop ||
+       0);
+  }
+
+  function updateAddFormSticky() {
+    var scrollTop, rect;
+
+    if (!addForm || !addFormTop) {
+      return;
+    }
+
+    scrollTop =
+      window.pageYOffset ||
+      document.documentElement.scrollTop ||
+      document.body.scrollTop ||
+      0;
+
+    if (scrollTop >= addFormTop) {
+
+      if (!addFormPlaceholder) {
+        addFormPlaceholder = document.createElement("div");
+        addFormPlaceholder.style.height = addForm.offsetHeight + "px";
+        addForm.parentNode.insertBefore(addFormPlaceholder, addForm);
+      }
+
+      rect = addFormPlaceholder.getBoundingClientRect();
+
+      addForm.className = "add-form is-sticky";
+      addForm.style.left = rect.left + "px";
+      addForm.style.width = rect.width + "px";
+
+    } else {
+
+      addForm.className = "add-form";
+      addForm.style.left = "";
+      addForm.style.width = "";
+
+      if (addFormPlaceholder && addFormPlaceholder.parentNode) {
+        addFormPlaceholder.parentNode.removeChild(addFormPlaceholder);
+      }
+
+      addFormPlaceholder = null;
+    }
+  }
+
+  window.onscroll = function () {
+    updateAddFormSticky();
+  };
+
+  window.onresize = function () {
+    if (addForm.className.indexOf("is-sticky") === -1) {
+      prepareAddFormSticky();
+    }
+
+    updateAddFormSticky();
+  };  
+
   addForm.onsubmit = function (event) {
     var name;
     if (event && event.preventDefault) { event.preventDefault(); }
@@ -586,6 +658,10 @@
     reader.readAsText(file);
   };
 
-  load(); render();
+  load();
+  render();
+  prepareAddFormSticky();
+  updateAddFormSticky();
+
   if ("serviceWorker" in navigator) { window.addEventListener("load", function () { navigator.serviceWorker.register("sw.js"); }); }
 }());
