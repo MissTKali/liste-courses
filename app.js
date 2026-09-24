@@ -231,7 +231,30 @@
     var del = row.getElementsByClassName("delete-one")[0];
     var handle = row.getElementsByClassName("drag-handle")[0];
     var touchStarted = false, lastTargetId = null;
+    var autoScrollTimer = null, autoScrollDirection = 0;
     if (!item) { return; }
+
+    function stopAutoScroll() {
+      if (autoScrollTimer) {
+        window.clearInterval(autoScrollTimer);
+        autoScrollTimer = null;
+      }
+
+      autoScrollDirection = 0;
+    }
+
+    function startAutoScroll(direction) {
+      if (autoScrollTimer && autoScrollDirection === direction) {
+        return;
+      }
+
+      stopAutoScroll();
+      autoScrollDirection = direction;
+
+      autoScrollTimer = window.setInterval(function () {
+        window.scrollBy(0, direction * 10);
+      }, 30);
+    }
 
     toggle.onclick = function () {
       var pos = trip.selected.indexOf(item.id);
@@ -291,6 +314,15 @@
       }
 
       touch = event.touches[0];
+
+      if (touch.clientY < 70) {
+        startAutoScroll(-1);
+      } else if (touch.clientY > window.innerHeight - 70) {
+        startAutoScroll(1);
+      } else {
+        stopAutoScroll();
+      }
+
       target = document.elementFromPoint(touch.clientX, touch.clientY);
 
       while (
@@ -343,6 +375,8 @@
     };
 
     handle.ontouchend = handle.ontouchcancel = function () {
+      stopAutoScroll();
+      
       if (!touchStarted) {
         return;
       }
