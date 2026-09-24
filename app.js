@@ -264,29 +264,100 @@
       return false;
     };
 
-    /* Tactile ancien Android : on glisse par la poignée ≡. */
-    handle.ontouchstart = function () {
-      touchStarted = true; lastTargetId = item.id;
-      if (row.className.indexOf("dragging") === -1) { row.className += " dragging"; }
-    };
-    handle.ontouchmove = function (event) {
-      var touch, target, targetRow, targetId;
-      if (!touchStarted || !event.touches || !event.touches.length) { return; }
-      if (event.preventDefault) { event.preventDefault(); }
-      touch = event.touches[0];
-      target = document.elementFromPoint(touch.clientX, touch.clientY);
-      while (target && target !== listEl && !(target.className && (" " + target.className + " ").indexOf(" catalog-item ") !== -1)) { target = target.parentNode; }
-      targetRow = target && target !== listEl ? target : null;
-      targetId = targetRow ? targetRow.getAttribute("data-id") : null;
-      if (targetId && targetId !== lastTargetId && targetId !== item.id) {
-        lastTargetId = targetId;
-        moveItemById(item.id, targetId);
-        touchStarted = false;
+    /* Tactile ancien Android : déplacement continu par la poignée ≡. */
+    handle.ontouchstart = function (event) {
+      touchStarted = true;
+      lastTargetId = item.id;
+
+      if (row.className.indexOf("dragging") === -1) {
+        row.className += " dragging";
+      }
+
+      if (event.preventDefault) {
+        event.preventDefault();
       }
     };
+
+    handle.ontouchmove = function (event) {
+      var touch, target, targetRow, targetId;
+      var from = -1, to = -1, i, moved;
+
+      if (!touchStarted || !event.touches || !event.touches.length) {
+        return;
+      }
+
+      if (event.preventDefault) {
+        event.preventDefault();
+      }
+
+      touch = event.touches[0];
+      target = document.elementFromPoint(touch.clientX, touch.clientY);
+
+      while (
+        target &&
+        target !== listEl &&
+        !(target.className &&
+          (" " + target.className + " ").indexOf(" catalog-item ") !== -1)
+      ) {
+        target = target.parentNode;
+      }
+
+      targetRow = target && target !== listEl ? target : null;
+      targetId = targetRow ? targetRow.getAttribute("data-id") : null;
+
+      if (!targetId || targetId === lastTargetId || targetId === item.id) {
+        return;
+      }
+
+      lastTargetId = targetId;
+
+      /*
+       * On réordonne directement le tableau,
+       * mais surtout SANS render().
+       */
+      for (i = 0; i < items.length; i++) {
+        if (items[i].id === item.id) {
+          from = i;
+        }
+        if (items[i].id === targetId) {
+          to = i;
+        }
+      }
+
+      if (from < 0 || to < 0) {
+        return;
+      }
+
+      moved = items.splice(from, 1)[0];
+      items.splice(to, 0, moved);
+
+      /*
+       * On déplace aussi la ligne existante dans le DOM.
+       * Ainsi le doigt reste attaché au même élément.
+       */
+      if (from < to) {
+        listEl.insertBefore(row, targetRow.nextSibling);
+      } else {
+        listEl.insertBefore(row, targetRow);
+      }
+    };
+
     handle.ontouchend = handle.ontouchcancel = function () {
+      if (!touchStarted) {
+        return;
+      }
+
       touchStarted = false;
+      lastTargetId = null;
+
       row.className = row.className.replace(/\s*dragging/g, "");
+
+      /*
+       * Une seule sauvegarde et un seul render :
+       * lorsque le doigt est relâché.
+       */
+      save();
+      render();
     };
   }
 
