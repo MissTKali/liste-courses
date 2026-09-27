@@ -2,6 +2,7 @@
   "use strict";
 
   var HISTORY_KEY = "maListeCourses_historique_v2";
+
   var history = loadHistory();
   var emptyEl = document.getElementById("historyEmpty");
   var priceSection = document.getElementById("priceSection");
@@ -10,6 +11,9 @@
   var chartEl = document.getElementById("chart");
   var detailsEl = document.getElementById("priceDetails");
   var tripsEl = document.getElementById("trips");
+
+  var oldTicketButton = document.getElementById("oldTicketButton");
+  var oldTicketFile = document.getElementById("oldTicketFile");
 
   function loadHistory() {
     try {
@@ -174,6 +178,149 @@
     }
     detailsEl.innerHTML = html;
   }
+
+  function saveHistory() {
+    localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+  }
+
+  function sameTicketAlreadyExists(ticket) {
+    var i;
+    var j;
+    var trip;
+    var a;
+    var b;
+
+    for (i = 0; i < history.length; i++) {
+      trip = history[i];
+
+      if (trip.date !== ticket.date) {
+        continue;
+      }
+
+      if (!trip.items || trip.items.length !== ticket.items.length) {
+        continue;
+      }
+
+      for (j = 0; j < trip.items.length; j++) {
+        a = trip.items[j];
+        b = ticket.items[j];
+
+        if (
+          a.name !== b.name ||
+          Number(a.quantity) !== Number(b.quantity) ||
+          a.unit !== b.unit ||
+          Number(a.unitPrice) !== Number(b.unitPrice) ||
+          Number(a.paid) !== Number(b.paid)
+        ) {
+          break;
+        }
+      }
+
+      if (j === trip.items.length) {
+        return true;
+      }
+    }
+
+    return false;
+  }  
+
+  function importOldTicket(ticket) {
+    var i;
+    var item;
+    var total = 0;
+    var cleanItems = [];
+
+    if (!ticket || !ticket.date || !ticket.items || !ticket.items.length) {
+      throw new Error("Format de ticket invalide.");
+    }
+
+    if (sameTicketAlreadyExists(ticket)) {
+      throw new Error("Ce ticket a déjà été importé.");
+    }    
+
+    for (i = 0; i < ticket.items.length; i++) {
+      item = ticket.items[i];
+
+      if (
+        !item.name ||
+        typeof item.quantity !== "number" ||
+        typeof item.unitPrice !== "number" ||
+        typeof item.paid !== "number"
+      ) {
+        throw new Error("Un article du ticket est invalide.");
+      }
+
+      cleanItems.push({
+        name: item.name,
+        quantity: item.quantity,
+        unit: item.unit === "g" ? "g" : "u",
+        unitPrice: item.unitPrice,
+        paid: item.paid
+      });
+
+      total += item.paid;
+    }
+
+    total = Math.round(total * 100) / 100;
+
+    history.push({
+      id: "import-" + new Date().getTime(),
+      date: ticket.date,
+      items: cleanItems,
+      total: total
+    });
+
+    saveHistory();
+  }
+
+
+  oldTicketButton.onclick = function () {
+    oldTicketFile.value = "";
+    oldTicketFile.click();
+  };
+
+
+  oldTicketFile.onchange = function () {
+    var file = oldTicketFile.files[0];
+    var reader;
+
+    if (!file) {
+      return;
+    }
+
+    reader = new FileReader();
+
+    reader.onload = function () {
+      var ticket;
+
+      try {
+        ticket = JSON.parse(reader.result);
+
+        importOldTicket(ticket);
+
+        alert(
+          "Ticket du " +
+          dateFr(ticket.date) +
+          " importé avec succès."
+        );
+
+        history = loadHistory();
+        init();
+
+      } catch (error) {
+        alert(
+          "Impossible d'importer ce ticket.\n\n" +
+          error.message
+        );
+      }
+    };
+
+    reader.onerror = function () {
+      alert("Impossible de lire le fichier sélectionné.");
+    };
+
+    reader.readAsText(file);
+  };
 
   function init() {
     var products, html = "", i;

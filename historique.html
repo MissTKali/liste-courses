@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#322650">
   <title>Historique des prix</title>
   <link rel="icon" type="image/png" href="icons/icon-512.png">
-  <link rel="stylesheet" href="style.css?v=13">
+  <link rel="stylesheet" href="style.css?v=14">
 </head>
 <body>
   <div class="app">
@@ -29,12 +29,25 @@
         <div id="priceDetails" class="price-details"></div>
       </section>
 
+      <section class="history-section old-ticket-section">
+        <button type="button" id="oldTicketButton" class="secondary old-ticket-button">
+          Importer un ancien ticket
+        </button>
+
+        <input
+          id="oldTicketFile"
+          type="file"
+          accept=".json,application/json"
+          hidden
+        >
+      </section>
+
       <section id="tripsSection" class="history-section">
         <h2>Courses enregistrées</h2>
         <div id="trips"></div>
       </section>
     </main>
   </div>
-  <script src="historique.js?v=13"></script>
+  <script src="historique.js?v=14"></script>
 </body>
 </html>

@@ -235,3 +235,8 @@ main h2 { margin: 4px 0 12px; font-size: 21px; color: #222; }
 .trip-card .trip-items {
   display: none;
 }
+
+/* Import d'un ancien ticket */
+.old-ticket-button {
+  width: 100%;
+}
