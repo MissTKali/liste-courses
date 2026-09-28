@@ -8,7 +8,7 @@
   <link rel="manifest" href="manifest.json">
   <link rel="icon" type="image/png" href="icons/icon-512.png">
   <link rel="apple-touch-icon" href="icons/icon-512.png">
-  <link rel="stylesheet" href="style.css?v=14">
+  <link rel="stylesheet" href="style.css?v=16">
 </head>
 <body>
 <div class="app">
@@ -31,6 +31,24 @@
   </header>
 
   <main>
+
+    <section id="listsSection" class="lists-section">
+      <h2>Mes listes habituelles</h2>
+
+      <div id="habitualLists" class="habitual-lists"></div>
+
+      <button type="button" id="newHabitualList" class="strong-action habitual-list-add">
+        + Nouvelle liste
+      </button>
+    </section>
+
+    <section id="activeListHeader" class="active-list-header">
+      <button type="button" id="backToLists" class="back-to-lists">
+        ‹ Mes listes habituelles
+      </button>
+      <h2 id="activeListName"></h2>
+    </section>
+
     <section id="currentTripSection" class="current-trip-section">
       <div class="section-title-row">
         <span id="tripCount" class="trip-count"></span>
@@ -43,7 +61,7 @@
       </section>
     </section>
 
-    <section class="catalog-section">
+    <section id="catalogSection" class="catalog-section">
       <h2>Mes articles habituels</h2>
       <form id="addForm" class="add-form">
         <div class="add-row">
@@ -57,6 +75,6 @@
     </section>
   </main>
 </div>
-<script src="app.js?v=12"></script>
+<script src="app.js?v=16"></script>
 </body>
 </html>
