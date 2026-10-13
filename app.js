@@ -976,6 +976,7 @@
   };
 
   restoreButton.onclick = function () {
+    alert("TEST : le bouton fonctionne !");
     restoreFile.click();
   };
 
