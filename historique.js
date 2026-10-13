@@ -275,6 +275,17 @@
 
 
   oldTicketButton.onclick = function () {
+    var continuer = window.confirm(
+      "Importer un ancien ticket\n\n" +
+      "Cette fonction permet d'importer un ancien ticket " +
+      "à partir d'un fichier au format JSON préalablement généré.\n\n" +
+      "Continuer ?"
+    );
+
+    if (!continuer) {
+      return;
+    }
+
     oldTicketFile.value = "";
     oldTicketFile.click();
   };

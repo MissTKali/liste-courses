@@ -41,7 +41,12 @@ button, .button-link { min-height: 48px; border: 0; border-radius: 6px; padding:
 .secondary { background: #ddd; color: #222; }
 .strong-action { background: #451033; color: #fff; }
 .danger { background: #8a1f1f; color: #fff; }
-.file-input { display: none; }
+.file-input { 
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  overflow: hidden; }
 .file-label { line-height: 32px; }
 .history-section { margin-bottom: 24px; }
 .history-section h2 { margin: 8px 0 12px; font-size: 21px; }
