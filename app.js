@@ -24,6 +24,10 @@
   var saveTrip = document.getElementById("saveTrip");
   var backupData = document.getElementById("backupData");
   var restoreFile = document.getElementById("restoreFile");
+  var restoreButton = document.getElementById("restoreButton");
+    restoreButton.onclick = function () {
+      restoreFile.click();
+    };
   var statusEl = document.getElementById("status");
   var optionsButton = document.getElementById("optionsButton");
   var optionsPanel = document.getElementById("optionsPanel");
