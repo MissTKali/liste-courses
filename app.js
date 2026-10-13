@@ -25,9 +25,6 @@
   var backupData = document.getElementById("backupData");
   var restoreFile = document.getElementById("restoreFile");
   var restoreButton = document.getElementById("restoreButton");
-    restoreButton.onclick = function () {
-      restoreFile.click();
-    };
   var statusEl = document.getElementById("status");
   var optionsButton = document.getElementById("optionsButton");
   var optionsPanel = document.getElementById("optionsPanel");
@@ -976,6 +973,10 @@
     if (!name) { return false; }
     items.push({ id: makeId(), name: name, price: 0, quantity: 1, unit: "u" });
     newName.value = ""; save(); render(); newName.focus(); return false;
+  };
+
+  restoreButton.onclick = function () {
+    restoreFile.click();
   };
 
   optionsButton.onclick = function () { optionsPanel.className = optionsPanel.className.indexOf("open") !== -1 ? "options-panel" : "options-panel open"; };
