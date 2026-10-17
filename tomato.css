@@ -15,11 +15,13 @@
   justify-content: flex-end;
   padding-bottom: 90px;
   box-sizing: border-box;
+  overflow: visible;
 }
 
 /* Notre petite acrobate */
 .tomato-character {
   position: relative;
+  margin-right: 140px;
   width: 100px;
   height: 130px;
   transform-origin: center 65%;
@@ -33,21 +35,16 @@
   left: 5px;
   width: 90px;
   height: 90px;
-  background: radial-gradient(
-    circle at 35% 30%,
-    #ff7770 0%,
-    #ed2929 45%,
-    #bd1018 100%
-  );
+  background:  #ed2929;
   border-radius: 46% 46% 48% 48%;
   box-shadow: inset -7px -8px 12px rgba(90, 0, 0, 0.2),
               0 5px 12px rgba(0, 0, 0, 0.2);
 }
 
-/* Les feuilles */
+/* Les petites feuilles */
 .tomato-leaves {
   position: absolute;
-  top: 8px;
+  top: 3px;
   left: 30px;
   width: 40px;
   height: 25px;
@@ -56,15 +53,16 @@
 
 .tomato-leaves span {
   position: absolute;
+  height: 24px;
   width: 15px;
-  height: 27px;
   background: #268b35;
   border-radius: 100% 0 100% 0;
   transform-origin: bottom center;
 }
 
 .tomato-leaves span:nth-child(1) {
-  transform: rotate(-55deg);
+  left: 5px;
+  transform: rotate(-60deg);
 }
 
 .tomato-leaves span:nth-child(2) {
@@ -73,8 +71,8 @@
 }
 
 .tomato-leaves span:nth-child(3) {
-  left: 24px;
-  transform: rotate(55deg);
+  left: 19px;
+  transform: rotate(40deg);
 }
 
 /* Les yeux */
@@ -132,39 +130,182 @@
   border-radius: 5px;
 }
 
-/* La pancarte */
-.tomato-sign {
-  margin-top: 10px;
-  padding: 10px 15px;
-  background: #fff7d8;
-  border: 2px solid #a17a42;
-  border-radius: 8px;
-  color: #49351e;
-  font-size: 15px;
-  font-weight: bold;
-  text-align: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+/******************************************************************************
+ * La pancarte et son manche
+ ******************************************************************************/
 
+/* Le bras droit de notre tomate */
+.tomato-arm {
+  position: absolute;
+  top: 78px;
+  left: 85px;
+  width: 35px;
+  height: 8px;
+  background: #3c8b43;
+  border-radius: 8px;
+  transform-origin: left center;
   opacity: 0;
-  transform: scale(0.5);
-  animation: tomato-sign-in 0.5s ease-out 3.5s forwards;
+  animation: tomato-arm-in 0.6s ease-out 3.5s forwards;
+  z-index: 3;
 }
 
-/* L'œuf secret */
+/* Le bras apparaît après les pirouettes */
+@keyframes tomato-arm-in {
+  0% {
+    opacity: 0;
+    transform: scaleX(0) rotate(-25deg);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scaleX(1) rotate(-25deg);
+  }
+}
+
+/* Ensemble panneau + manche */
+.tomato-sign {
+  position: absolute;
+  left: 35px;
+  top: -85px;
+  width: 180px;
+  height: 190px;
+
+  opacity: 0;
+  transform: translateY(80px) rotate(25deg);
+  transform-origin: 20px 180px;
+
+  animation: tomato-lift 1.2s ease-out 3.5s forwards;
+  z-index: 4;
+}
+
+/* Le panneau */
+.tomato-board {
+  position: absolute;
+  top: 0px;
+  left: 0;
+  width: 180px;
+  height: 85px;
+  padding: 12px;
+  box-sizing: border-box;
+
+  background: #fff4ce;
+  border: 3px solid #a97738;
+  border-radius: 8px;
+
+  box-shadow: 3px 5px 8px rgba(0, 0, 0, 0.2);
+
+  text-align: center;
+  color: #49351e;
+}
+
+/* La pancarte grandit vers le haut lorsque l'œuf apparaît */
+.tomato-reveal .tomato-board {
+  top: -60px;
+  height: 145px;
+}
+
+/* La question */
+.tomato-question {
+  font-size: 14px;
+  line-height: 1.3;
+  font-weight: bold;
+}
+
+/* Le manche en bois */
+.tomato-stick {
+  position: absolute;
+  top: 30px;
+  left: 85px;
+  width: 10px;
+  height: 110px;
+
+  background: #a97738;
+  border-radius: 5px;
+  z-index: -1;
+}
+
+/* La petite main */
+.tomato-hand {
+  position: absolute;
+  top: 139px;
+  left: 81px;
+  width: 20px;
+  height: 16px;
+
+  opacity: 0;
+  animation: tomato-hand-in 0.3s ease-out 4s forwards;
+
+  background: #3c8b43;
+  border-radius: 50%;
+  z-index: 5;
+}
+
+@keyframes tomato-hand-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/******************************************************************************
+ * L'œuf de Pâques secret
+ ******************************************************************************/
+
 .tomato-egg {
   display: none;
   margin-top: 8px;
-  font-size: 38px;
+  text-align: center;
 }
 
 .tomato-reveal .tomato-egg {
   display: block;
-  animation: tomato-egg-pop 0.5s ease-out;
+  animation: tomato-egg-pop 0.6s ease-out;
 }
 
-/* Yeux écarquillés à la découverte */
+/* Yeux écarquillés */
 .tomato-reveal .tomato-eyes span {
   transform: scale(1.3);
+}
+
+/******************************************************************************
+ * Animation de la pancarte
+ ******************************************************************************/
+
+@keyframes tomato-lift {
+
+  0% {
+    opacity: 0;
+    transform: translateY(80px) rotate(25deg);
+  }
+
+  40% {
+    opacity: 1;
+  }
+
+  70% {
+    transform: translateY(-10px) rotate(-8deg);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) rotate(0deg);
+  }
+}
+
+/* Apparition de l'œuf */
+@keyframes tomato-egg-pop {
+
+  0% {
+    opacity: 0;
+    transform: scale(0.2) rotate(-20deg);
+  }
+
+  70% {
+    transform: scale(1.15) rotate(8deg);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
 }
 
 /* Entrée, pirouettes et petite maladresse */
@@ -240,4 +381,28 @@
     animation-duration: 0.01ms;
     animation-delay: 0ms;
   }
+}
+
+/* Empêcher la sélection du titre lors des clics secrets */
+.header-title h1 {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+
+/**************************************************
+ * L'expression de la tomate
+ **************************************************/
+
+/* Yeux fermés pendant les pirouettes */
+.tomato-eyes-closed .tomato-eyes span {
+  background: transparent;
+  border: none;
+  border-top: 3px solid #222;
+  border-radius: 50% 50% 0 0;
+}
+
+/* Pupilles cachées */
+.tomato-eyes-closed .tomato-eyes span::after {
+  display: none;
 }
