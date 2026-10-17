@@ -1,7 +1,16 @@
-var CACHE_NAME = "liste-courses-v2-6";
+var CACHE_NAME = "liste-courses-v2-7";
 var FILES = [
-  "./", "./index.html", "./historique.html", "./style.css", "./app.js", "./historique.js",
-  "./manifest.json", "./icons/icon-192.png", "./icons/icon-512.png"
+  "./",
+  "./index.html",
+  "./historique.html",
+  "./style.css",
+  "./app.js",
+  "./historique.js",
+  "./tomato.css",
+  "./tomato.js",
+  "./manifest.json",
+  "./icons/icon-192.png",
+  "./icons/icon-512.png"
 ];
 self.addEventListener("install", function (event) {
   event.waitUntil(caches.open(CACHE_NAME).then(function (cache) { return cache.addAll(FILES); }));
